@@ -1,0 +1,41 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบจองสนาม</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            height: 100%;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .content {
+            flex-grow: 1;
+        }
+        img {
+            width: 100%;
+            height: auto;
+            display: block; /* ทำให้แน่ใจว่าไม่มีช่องว่างรอบภาพ */
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container">
+        {% include 'navbar.html' %}
+        <div class="content flex items-center justify-center">
+            <img src="media/bg-badmintion.png" alt="Badminton Background" class="object-cover w-full h-full md:h-96 lg:h-1/2">
+        </div>
+    </div>
+</body>
+</html>

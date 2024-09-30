@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จัดการการจอง</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    {% include 'navbar.html' %}  <!-- รวม Navbar -->
+    
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-2xl font-bold mb-6 text-center">จัดการการจอง</h1> <!-- จัดกลาง -->
+        
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white shadow-lg rounded-lg overflow-hidden">
+                <thead>
+                    <tr class="bg-blue-600 text-white">
+                        <th class="py-2 px-4 text-center">ชื่อผู้ใช้</th> <!-- จัดกลาง -->
+                        <th class="py-2 px-4 text-center">สนาม</th> <!-- จัดกลาง -->
+                        <th class="py-2 px-4 text-center">วันที่จอง</th> <!-- จัดกลาง -->
+                        <th class="py-2 px-4 text-center">เวลาเริ่ม</th> <!-- จัดกลาง -->
+                        <th class="py-2 px-4 text-center">เวลาสิ้นสุด</th> <!-- จัดกลาง -->
+                        <th class="py-2 px-4 text-center">สถานะ</th> <!-- จัดกลาง -->
+                        <th class="py-2 px-4 text-center">การดำเนินการ</th> <!-- จัดกลาง -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr class="border-b hover:bg-gray-100">
+                        <td class="py-2 px-4 text-center">{{ booking.user.username }}</td>  <!-- จัดกลาง -->
+                        <td class="py-2 px-4 text-center">{{ booking.court.court_name }}</td> <!-- จัดกลาง -->
+                        <td class="py-2 px-4 text-center">{{ booking.booking_date }}</td>    <!-- จัดกลาง -->
+                        <td class="py-2 px-4 text-center">{{ booking.start_time }}</td>     <!-- จัดกลาง -->
+                        <td class="py-2 px-4 text-center">{{ booking.end_time }}</td>       <!-- จัดกลาง -->
+                        <td class="py-2 px-4 text-center">{{ booking.status }}</td>         <!-- จัดกลาง -->
+                        <td class="py-2 px-4 text-center">
+                            <a href="{% url 'edit_booking' booking.id %}" class="text-blue-500 hover:underline">แก้ไข</a>
+                            <form action="{% url 'delete_booking' booking.id %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="text-red-500 hover:underline ml-2">ลบ</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>                
+            </table>
+        </div>
+    </div>
+</body>
+</html>
