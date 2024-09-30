@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Court Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    {% include 'navbar.html' %}
+    
+    <div class="container mx-auto mt-10 px-4">
+        <div class="flex justify-between mb-4">
+            <h1 class="text-3xl font-bold mb-6 text-gray-800">จัดการสนาม</h1>
+            <div>
+                <a href="{% url 'add_court' %}" class="bg-green-500 text-white py-2 px-4 rounded shadow hover:bg-green-600 transition duration-200">
+                    เพิ่มสนามใหม่
+                </a>
+                <a href="{% url 'dashboard' %}" class="bg-blue-500 text-white py-2 px-4 rounded shadow hover:bg-blue-600 transition duration-200">
+                    ย้อนกลับ
+                </a>
+            </div>
+        </div>
+        
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-lg">
+                <thead>
+                    <tr class="bg-blue-500 text-white">
+                        <th class="py-3 px-6 border-b text-center text-lg">ชื่อสนาม</th>
+                        <th class="py-3 px-6 border-b text-center text-lg">สถานะ</th>
+                        <th class="py-3 px-6 border-b text-center text-lg">การจัดการ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for court in courts %}
+                    <tr class="hover:bg-gray-100 transition duration-150">
+                        <td class="py-3 px-6 border-b text-center text-gray-700">{{ court.court_name }}</td>
+                        <td class="py-3 px-6 border-b text-center text-gray-700">{{ court.status }}</td>
+                        <td class="py-3 px-6 border-b text-center">
+                            <a href="{% url 'edit_court' court.id %}" class="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600 transition duration-200">แก้ไข</a>
+                            <form action="{% url 'delete_court' court.id %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 transition duration-200">ลบ</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="py-2 px-4 text-center border-b text-gray-600">ไม่มีสนาม</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

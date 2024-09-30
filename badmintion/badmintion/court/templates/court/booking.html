@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('https://images.unsplash.com/photo-1494519082425-4a5c707b8f09?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDF8fGJhbGxldGV8ZW58MHx8fHwxNjg5NzU1Mjc5&ixlib=rb-4.0.3&q=80&w=1080');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+    <script>
+        function generateTimeSlots() {
+            const timeSelect = document.getElementById('time');
+            const startHour = 9; // 9:00 AM
+            const endHour = 22; // 10:00 PM
+            const timeSlots = [];
+
+            for (let hour = startHour; hour < endHour; hour++) {
+                const startTime = hour < 10 ? '0' + hour + ':00' : hour + ':00';
+                const endTime = hour + 1 < 10 ? '0' + (hour + 1) + ':00' : (hour + 1) + ':00';
+                timeSlots.push(`${startTime} - ${endTime}`);
+            }
+
+            // Clear existing options
+            timeSelect.innerHTML = '<option value="">-- กรุณาเลือกเวลา --</option>';
+            
+            // Populate time slots
+            timeSlots.forEach(slot => {
+                const option = document.createElement('option');
+                option.value = slot;
+                option.textContent = slot;
+                timeSelect.appendChild(option);
+            });
+        }
+
+        // Call the function when the page loads
+        window.onload = generateTimeSlots;
+    </script>
+</head>
+
+<body class="text-gray-800">
+    {% include 'navbar.html' %} <!-- Include navbar -->
+
+    <div class="max-w-md mx-auto mt-10 p-8 bg-white bg-opacity-90 rounded-lg shadow-lg">
+        <h1 class="text-3xl font-bold text-center mb-6">Booking Court</h1>
+
+        <p class="text-lg text-center mb-4">Welcome, {{ first_name }} {{ last_name }}!</p> <!-- Display user's name -->
+
+        <!-- Booking form -->
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="court" class="block text-sm font-medium text-gray-700">เลือกสนาม:</label>
+                <select name="court" id="court"
+                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500">
+                    <option value="">-- กรุณาเลือกสนาม --</option>
+                    {% for court in courts %}
+                    <option value="{{ court.id }}">{{ court.court_name }} (สถานะ: {{ court.status }})</option>
+                    {% empty %}
+                    <option value="">ไม่มีสนามให้เลือก</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="date" class="block text-sm font-medium text-gray-700">วันที่:</label>
+                <input type="date" name="date" id="date"
+                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+                    required>
+            </div>
+
+            <div class="mb-4">
+                <label for="time" class="block text-sm font-medium text-gray-700">เวลา:</label>
+                <select name="time" id="time"
+                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500">
+                    <option value="">-- กรุณาเลือกเวลา --</option>
+                </select>
+            </div>
+
+            <button type="submit"
+                class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded-md transition duration-200">
+                ยืนยันการจอง
+            </button>
+        </form>
+    </div>
+
+    <footer class="mt-10 text-center text-sm text-gray-600">
+        <p>&copy; {{ current_year }} Your Company Name. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สมัครสมาชิก</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+    {% include 'navbar.html' %}
+    <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg mt-6">
+        <h2 class="text-2xl font-bold text-center mb-6">สมัครสมาชิก</h2>
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-4">
+                <label for="username" class="block text-sm font-medium text-gray-700">ชื่อผู้ใช้:</label>
+                <input type="text" name="username" id="username" required 
+                       class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500">
+                {% if form.username.errors %}
+                    <div class="text-red-600 text-sm mt-1">{{ form.username.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label for="first_name" class="block text-sm font-medium text-gray-700">ชื่อจริง:</label>
+                <input type="text" name="first_name" id="first_name" required 
+                       class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500">
+                {% if form.first_name.errors %}
+                    <div class="text-red-600 text-sm mt-1">{{ form.first_name.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label for="last_name" class="block text-sm font-medium text-gray-700">นามสกุล:</label>
+                <input type="text" name="last_name" id="last_name" required 
+                       class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500">
+                {% if form.last_name.errors %}
+                    <div class="text-red-600 text-sm mt-1">{{ form.last_name.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label for="role" class="block text-sm font-medium text-gray-700">บทบาท:</label>
+                <select name="role" id="role" required 
+                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500">
+                    <option value="">ประเภท</option>
+                    <option value="student">นักเรียน</option>
+                    <option value="teacher">ครู</option>
+                </select>
+                {% if form.role.errors %}
+                    <div class="text-red-600 text-sm mt-1">{{ form.role.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label for="password1" class="block text-sm font-medium text-gray-700">รหัสผ่าน:</label>
+                <input type="password" name="password1" id="password1" required 
+                       class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500">
+                {% if form.password1.errors %}
+                    <div class="text-red-600 text-sm mt-1">{{ form.password1.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label for="password2" class="block text-sm font-medium text-gray-700">ยืนยันรหัสผ่าน:</label>
+                <input type="password" name="password2" id="password2" required 
+                       class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500">
+                {% if form.password2.errors %}
+                    <div class="text-red-600 text-sm mt-1">{{ form.password2.errors }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded-md transition duration-200">
+                สมัครสมาชิก
+            </button>
+        </form>
+    </div>
+</body>
+
+</html>

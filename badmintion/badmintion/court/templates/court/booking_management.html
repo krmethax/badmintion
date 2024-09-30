@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>จัดการการจองสนาม</title>
+</head>
+<body class="bg-gray-100">
+    {% include 'navbar.html' %}
+    <div class="container mx-auto mt-10">
+        <h1 class="text-2xl font-semibold mb-4 text-center">จัดการการจองสนาม</h1>
+        
+        <form method="GET" class="mb-4 text-center">
+            <label for="status" class="mr-2">Filter by Status:</label>
+            <select name="status" id="status" class="p-2 border border-gray-300 rounded">
+                <option value="">All</option>
+                <option value="pending">Pending</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="canceled">Canceled</option>
+            </select>
+            <button type="submit" class="ml-2 p-2 bg-blue-500 text-white rounded">Filter</button>
+        </form>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white border border-gray-300 shadow-md rounded-lg">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="py-2 px-4 border-b text-center">ชื่อผู้จอง</th>
+                        <th class="py-2 px-4 border-b text-center">Court</th>
+                        <th class="py-2 px-4 border-b text-center">วัน - เวลา การจอง</th>
+                        <th class="py-2 px-4 border-b text-center">สถานะ</th>
+                        <th class="py-2 px-4 border-b text-center">เปลี่ยนสถานะ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr class="text-center">
+                        <td class="py-2 px-4 border-b">{{ booking.user.first_name }} {{ booking.user.last_name }}</td>
+                        <td class="py-2 px-4 border-b">{{ booking.court.court_name }}</td>
+                        <td class="py-2 px-4 border-b">{{ booking.start_time }} - {{ booking.end_time }}</td>
+                        <td class="py-2 px-4 border-b 
+                            {% if booking.status == 'confirmed' %} text-green-500
+                             {% elif booking.status == 'pending' %} text-orange-500 
+                             {% elif booking.status == 'canceled' %} text-red-500 
+                             {% endif %}">
+                            {{ booking.get_status_display }}
+                        </td>
+                        <td class="py-2 px-4 border-b">
+                            <form method="POST" action="{% url 'update_booking_status' booking.id %}">
+                                {% csrf_token %}
+                                <select name="status" class="p-2 border border-gray-300 rounded">
+                                    <option value="pending" {% if booking.status == 'pending' %}selected{% endif %}>Pending</option>
+                                    <option value="confirmed" {% if booking.status == 'confirmed' %}selected{% endif %}>Confirmed</option>
+                                    <option value="canceled" {% if booking.status == 'canceled' %}selected{% endif %}>Canceled</option>
+                                </select>
+                                <button type="submit" class="ml-2 p-2 bg-blue-500 text-white rounded">เปลี่ยน</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

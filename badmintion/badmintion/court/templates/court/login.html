@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เข้าสู่ระบบจอง</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <form method="POST" action="{% url 'login' %}" class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg mt-6">
+        {% csrf_token %}
+        <h2 class="text-2xl font-bold text-center mb-6">กรุณาเข้าสู่ระบบ</h2>
+        
+        <div class="mb-4">
+            <label for="username" class="block text-sm font-medium text-gray-700">ชื่อผู้ใช้:</label>
+            <input type="text" name="username" id="username" required
+                   class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500">
+        </div>
+        
+        <div class="mb-6">
+            <label for="password" class="block text-sm font-medium text-gray-700">รหัสผ่าน:</label>
+            <input type="password" name="password" id="password" required
+                   class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500">
+        </div>
+
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700">ยอมรับข้อตกลง:</label>
+            <div class="mt-2">
+                <input type="radio" name="agreement" id="agree" value="yes" required>
+                <label for="agree" class="text-sm text-gray-700">ฉันยอมรับข้อตกลงและเงื่อนไข</label>
+            </div>
+        </div>
+    
+        <button type="submit"
+                class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded-md transition duration-200">
+            เข้าสู่ระบบจอง
+        </button>
+    </form>
+    
+</body>
+</html>

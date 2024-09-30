@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50">
+    {% include 'navbar.html' %}
+
+    <div class="container mx-auto mt-10">
+        <h1 class="text-3xl font-bold text-center mb-6">Welcome Admin</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="flex justify-center">
+                <a href="{% url 'court_management' %}" class="bg-green-500 text-white py-4 px-8 rounded shadow-md hover:bg-green-600 transition duration-200">
+                    การจัดการสนาม
+                </a>
+            </div>
+
+            <div class="flex justify-center">
+                <a href="{% url 'booking_management' %}" class="bg-green-500 text-white py-4 px-8 rounded shadow-md hover:bg-green-600 transition duration-200">
+                    การจัดการการจอง
+                </a>
+            </div>
+
+            <div class="flex justify-center">
+                <a href="{% url 'user_management' %}" class="bg-green-500 text-white py-4 px-8 rounded shadow-md hover:bg-green-600 transition duration-200">
+                    การจัดการผู้ใช้
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

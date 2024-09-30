@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จัดการผู้ใช้</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+    {% include 'navbar.html' %}
+    <div class="container mx-auto mt-10 px-4">
+        <a href="{% url 'dashboard' %}"
+            class="inline-block bg-blue-500 text-white py-2 px-4 rounded mb-4 shadow hover:bg-blue-600 transition duration-200">Back</a>
+
+        <a href="{% url 'create_user' %}"
+            class="inline-block bg-green-500 text-white py-2 px-4 rounded mb-4 shadow hover:bg-green-600 transition duration-200">เพิ่มผู้ใช้</a>
+
+        <h1 class="text-3xl text-center font-bold mb-6 text-gray-800">จัดการผู้ใช้</h1>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white border border-gray-300 shadow-lg rounded-lg">
+                <thead>
+                    <tr class="bg-blue-500 text-white">
+                        <th class="py-3 px-6 border-b text-center text-lg">ชื่อ</th>
+                        <th class="py-3 px-6 border-b text-center text-lg">สถานะ</th>
+                        <th class="py-3 px-6 border-b text-center text-lg">Username</th>
+                        <th class="py-3 px-6 border-b text-center text-lg">การดำเนินการ</th>
+                        <!-- เพิ่มคอลัมน์สำหรับการดำเนินการ -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr class="hover:bg-gray-100 transition duration-150">
+                        <td class="py-3 px-6 border-b text-center text-gray-700">{{ user.first_name }} {{ user.last_name}}</td>
+                        <td class="py-3 px-6 border-b text-center text-gray-700">{{ user.role }}</td>
+                        <td class="py-3 px-6 border-b text-center text-gray-700">{{ user.username }}</td>
+                        <td class="py-3 px-6 border-b text-center"> <!-- เปลี่ยนที่นี่ -->
+                            <a href="{% url 'edit_user' user.id %}"
+                                class="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600 transition duration-200">แก้ไข</a>
+                            <form action="{% url 'delete_user' user.id %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit"
+                                    class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 transition duration-200">ลบ</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="py-2 px-4 text-center border-b text-gray-600">ไม่มีผู้ใช้</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Badminton Court Layout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<script>
+    // Function to redirect the user to the court booking page
+    function bookCourt(courtNumber) {
+        // Redirect to the booking page with court parameter
+        window.location.href = `/login/`; // Modify the URL as needed
+    }
+</script>
+
+<body class="bg-gray-100">
+    {% include 'navbar.html' %}
+    <img src="/media/bg-badmintion.png" alt="Badminton Background">
+    <br>
+    <h3 class="text-3xl font-bold text-center mb-6">แผนผังสนาม</h3>
+    <div class="grid grid-cols-1 gap-8 p-6 max-w-7xl mx-auto">
+        <!-- Court 1 -->
+        <div class="relative w-full h-72 bg-green-500 border-4 border-black cursor-pointer" onclick="bookCourt(1)">
+            <div class="absolute top-0 left-0 w-full h-1 bg-white"></div>
+            <div class="absolute top-0 left-6 w-[calc(100%-48px)] h-1 bg-white"></div>
+            <div class="absolute top-0 left-0 h-full w-1 bg-white"></div>
+            <div class="absolute top-0 right-0 h-full w-1 bg-white"></div>
+            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 h-full w-1 bg-white"></div>
+            <div class="absolute top-1/2 transform -translate-y-1/2 left-0 w-full h-0.5 bg-red-600"></div>
+            <!-- Court Label -->
+            <div class="absolute bottom-2 left-2 text-white font-bold">สนามที่ 1</div>
+        </div>
+
+        <!-- Court 2 -->
+        <div class="relative w-full h-72 bg-green-500 border-4 border-black cursor-pointer" onclick="bookCourt(2)">
+            <div class="absolute top-0 left-0 w-full h-1 bg-white"></div>
+            <div class="absolute top-0 left-6 w-[calc(100%-48px)] h-1 bg-white"></div>
+            <div class="absolute top-0 left-0 h-full w-1 bg-white"></div>
+            <div class="absolute top-0 right-0 h-full w-1 bg-white"></div>
+            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 h-full w-1 bg-white"></div>
+            <div class="absolute top-1/2 transform -translate-y-1/2 left-0 w-full h-0.5 bg-red-600"></div>
+            <!-- Court Label -->
+            <div class="absolute bottom-2 left-2 text-white font-bold">สนามที่ 2</div>
+        </div>
+
+        <!-- Court 3 -->
+        <div class="relative w-full h-72 bg-green-500 border-4 border-black cursor-pointer" onclick="bookCourt(3)">
+            <div class="absolute top-0 left-0 w-full h-1 bg-white"></div>
+            <div class="absolute top-0 left-6 w-[calc(100%-48px)] h-1 bg-white"></div>
+            <div class="absolute top-0 left-0 h-full w-1 bg-white"></div>
+            <div class="absolute top-0 right-0 h-full w-1 bg-white"></div>
+            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 h-full w-1 bg-white"></div>
+            <div class="absolute top-1/2 transform -translate-y-1/2 left-0 w-full h-0.5 bg-red-600"></div>
+            <!-- Court Label -->
+            <div class="absolute bottom-2 left-2 text-white font-bold">สนามที่ 3</div>
+        </div>
+
+        <!-- Court 4 -->
+        <div class="relative w-full h-72 bg-green-500 border-4 border-black cursor-pointer" onclick="bookCourt(4)">
+            <div class="absolute top-0 left-0 w-full h-1 bg-white"></div>
+            <div class="absolute top-0 left-6 w-[calc(100%-48px)] h-1 bg-white"></div>
+            <div class="absolute top-0 left-0 h-full w-1 bg-white"></div>
+            <div class="absolute top-0 right-0 h-full w-1 bg-white"></div>
+            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 h-full w-1 bg-white"></div>
+            <div class="absolute top-1/2 transform -translate-y-1/2 left-0 w-full h-0.5 bg-red-600"></div>
+            <!-- Court Label -->
+            <div class="absolute bottom-2 left-2 text-white font-bold">สนามที่ 4</div>
+        </div>
+    </div>
+</body>
+
+</html>
