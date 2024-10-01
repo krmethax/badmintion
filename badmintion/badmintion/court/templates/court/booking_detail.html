@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ตารางการจอง</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f7f7f7;
+        }
+        #calendar {
+            max-width: 100%; /* ปรับความกว้างให้เต็มพื้นที่ */
+            margin: 0 auto; /* Center the calendar */
+        }
+    </style>
+</head>
+
+<body class="text-gray-800">
+    {% include 'navbar.html' %}
+
+    <div class="max-w-7xl mx-auto mt-10 p-8 bg-white bg-opacity-90 rounded-lg shadow-lg">
+        <h1 class="text-3xl font-bold text-center mb-6">ตารางการจอง</h1>
+
+        <div class="mb-4">
+            <h2 class="text-lg font-semibold">สถานะการจอง:</h2>
+            <div class="flex items-center">
+                <div class="w-4 h-4 bg-green-500 mr-2"></div>
+                <span>ยืนยันแล้ว</span>
+            </div>
+            <div class="flex items-center">
+                <div class="w-4 h-4 bg-orange-500 mr-2"></div>
+                <span>รอยืนยัน</span>
+            </div>
+            <div class="flex items-center">
+                <div class="w-4 h-4 bg-red-500 mr-2"></div>
+                <span>ยกเลิก</span>
+            </div>
+        </div>
+
+        <div id="calendar"></div>
+    </div>
+
+    <!-- FullCalendar JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+    
+            // รับข้อมูลการจองจาก Django context
+            var bookings = {{ bookings_json|safe }};
+            console.log("Bookings from server:", bookings); // Log all bookings
+    
+            var events = bookings.map(function(booking) {
+                return {
+                    title: booking.court_name + ' (สถานะ: ' + booking.status + ')',
+                    start: new Date(booking.start_time).toISOString(),
+                    end: new Date(booking.end_time).toISOString(),
+                    color: booking.status === 'รอยยัน' ? 'orange' : 'green',
+                    extendedProps: {
+                        court_name: booking.court_name,
+                        student_id: booking.student_id,
+                        booker_name: (booking.user ? booking.user.first_name + ' ' + booking.user.last_name : 'ไม่ทราบชื่อ'),
+                        status: booking.status,
+                        details: booking.details
+                    }
+                };
+            });
+    
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                timeZone: 'local',
+                initialView: 'dayGridMonth',
+                events: events,
+                locale: 'th',
+                headerToolbar: {
+                    left: 'today',
+                    center: 'title',
+                    right: 'prev,next'
+                },
+                eventClick: function(info) {
+                    // แสดงรายละเอียดการจองเมื่อคลิก
+                    alert('Court: ' + info.event.extendedProps.court_name + '\n' +
+                          'ชื่อผู้จอง: ' + info.event.extendedProps.booker_name + '\n' +
+                          'สถานะ: ' + info.event.extendedProps.status + '\n' +
+                          'รายละเอียด: ' + info.event.extendedProps.details);
+                },
+                views: {
+                    dayGridMonth: { buttonText: 'เดือน' },
+                },
+                windowResize: function() {
+                    if (window.innerWidth < 768) {
+                        calendar.changeView('dayGridDay');
+                    } else {
+                        calendar.changeView('dayGridMonth');
+                    }
+                }
+            });
+    
+            calendar.render();
+        });
+    </script>    
+</body>
+
+</html>

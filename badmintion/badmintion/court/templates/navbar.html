@@ -18,45 +18,67 @@
         <div class="flex items-center flex-shrink-0 text-white mr-6">
             <span class="font-semibold tracking-tight" style="font-size: 25px;">ระบบจองสนามแบดมินตัน</span>
         </div>
+        <!-- Toggle Button for small screens -->
         <div class="block lg:hidden">
-            <button class="flex items-center px-3 py-2 border rounded text-white hover:text-white hover:border-white">
+            <button id="menuToggle" class="flex items-center px-3 py-2 border rounded text-white hover:text-white hover:border-white">
                 <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <title>Menu</title>
                     <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
                 </svg>
             </button>
         </div>
-        <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+        <!-- Menu Links -->
+        <div id="menu" class="w-full block flex-grow lg:flex lg:items-center lg:w-auto hidden">
             <div class="text-sm lg:flex-grow flex justify-end space-x-4">
-                <a href="{% url 'index' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-400" style="font-size: 16px;">
+                <a href="{% url 'index' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-400"
+                    style="font-size: 16px;">
                     หน้าหลัก
                 </a>
                 {% if user.is_authenticated %}
-                    <!-- Check if the user is a student or teacher -->
-                    {% if user.is_student or user.is_teacher %}
-                    <a href="{% url 'my_bookings' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-400" style="font-size: 16px;">
-                        การจองของฉัน
-                    </a>
-                    {% endif %}
-                    <!-- Logout button -->
-                    <form method="POST" action="{% url 'logout' %}">
-                        {% csrf_token %}
-                        <button type="submit" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-400" style="font-size: 16px;">
-                            ออกจากระบบ
-                        </button>
-                    </form>
+                <!-- Check if the user is a student or teacher -->
+                {% if user.is_student or user.is_teacher %}
+                <a href="{% url 'my_bookings' %}"
+                    class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-400"
+                    style="font-size: 16px;">
+                    การจองของฉัน
+                </a>
+                {% endif %}
+                <!-- Logout button -->
+                <form method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-400"
+                        style="font-size: 16px;">
+                        ออกจากระบบ
+                    </button>
+                </form>
                 {% else %}
-                    <!-- Login and Register links -->
-                    <a href="{% url 'login' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-400" style="font-size: 16px;">
-                        เข้าสู่ระบบจอง
-                    </a>
-                    <a href="{% url 'register' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-400" style="font-size: 16px;">
-                        สมัครสมาชิก
-                    </a>
+                <a href="{% url 'booking_detail' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-400"
+                    style="font-size: 16px;">ตารางการจอง
+                </a>
+                <!-- Login and Register links -->
+                <a href="{% url 'login' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-400"
+                    style="font-size: 16px;">
+                    เข้าสู่ระบบจอง
+                </a>
+                <a href="{% url 'register' %}"
+                    class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-400"
+                    style="font-size: 16px;">
+                    สมัครสมาชิก
+                </a>
                 {% endif %}
             </div>
         </div>
     </nav>
+
+    <!-- JavaScript for Menu Toggle -->
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const menu = document.getElementById('menu');
+
+        menuToggle.addEventListener('click', () => {
+            menu.classList.toggle('hidden'); // Toggle the 'hidden' class to show/hide menu
+        });
+    </script>
 </body>
 
 </html>

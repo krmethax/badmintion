@@ -47,10 +47,10 @@
     {% include 'navbar.html' %} <!-- Include navbar -->
 
     <div class="max-w-md mx-auto mt-10 p-8 bg-white bg-opacity-90 rounded-lg shadow-lg">
-        <h1 class="text-3xl font-bold text-center mb-6">Booking Court</h1>
-
-        <p class="text-lg text-center mb-4">Welcome, {{ first_name }} {{ last_name }}!</p> <!-- Display user's name -->
-
+        <h1 class="text-3xl font-bold text-center mb-6">จอง Court สนามแบด</h1>
+        <p class="text-lg text-center mb-4">สวัสดี {{ first_name }} {{ last_name }} /
+            <a class=" text-red-500" style="text-decoration: underline;" href="{% url 'my_bookings' %}">การจองของฉัน</a>
+        </p>
         <!-- Booking form -->
         <form method="POST">
             {% csrf_token %}
@@ -87,11 +87,8 @@
                 ยืนยันการจอง
             </button>
         </form>
+        
     </div>
-
-    <footer class="mt-10 text-center text-sm text-gray-600">
-        <p>&copy; {{ current_year }} Your Company Name. All rights reserved.</p>
-    </footer>
 </body>
 
 </html>

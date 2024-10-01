@@ -10,8 +10,8 @@
 
 <body class="bg-gray-100">
     {% include 'navbar.html' %}
-    <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg mt-6">
-        <h2 class="text-2xl font-bold text-center mb-6">สมัครสมาชิก</h2>
+    <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg mt-10">
+        <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">สมัครสมาชิก</h2>
         <form method="POST">
             {% csrf_token %}
 
@@ -77,6 +77,10 @@
                 สมัครสมาชิก
             </button>
         </form>
+
+        <div class="mt-4 text-center">
+            <a href="{% url 'login' %}" class="text-red-500 hover:underline">กลับไปยังหน้าเข้าสู่ระบบ</a>
+        </div>
     </div>
 </body>
 

@@ -25,6 +25,7 @@ class UserBadmintonManager(BaseUserManager):
 
 class UserBadminton(AbstractBaseUser, PermissionsMixin):
     id = models.AutoField(primary_key=True)
+    email = models.EmailField()
     username = models.CharField(max_length=150, unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)

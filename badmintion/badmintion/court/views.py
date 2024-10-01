@@ -8,6 +8,8 @@ from django.contrib.auth.views import LoginView
 from .models import Court, Booking, UserBadminton
 from .forms import CourtForm
 from datetime import datetime, timedelta
+import json
+from .forms import ResetPasswordForm
 
 # Create your views here.
 
@@ -268,3 +270,51 @@ def update_booking_status(request, booking_id):
 def manage_bookings(request):
     bookings = Booking.objects.all()  # ดึงข้อมูลการจองทั้งหมด
     return render(request, 'manage_bookings.html', {'bookings': bookings})  # เปลี่ยนชื่อไฟล์ HTML ตามที่คุณใช้
+
+def booking_detail_view(request):
+    # Get all bookings
+    bookings = Booking.objects.all()
+
+    # Create JSON for sending to FullCalendar, including user details
+    bookings_json = json.dumps([
+        {
+            'court_name': booking.court.court_name,
+            'start_time': booking.start_time.isoformat(),
+            'end_time': booking.end_time.isoformat(),
+            'status': booking.status,
+            'user_first_name': booking.user.first_name,  # Accessing first name from related user
+            'user_last_name': booking.user.last_name,    # Accessing last name from related user
+        }
+        for booking in bookings
+    ])
+
+    return render(request, 'court/booking_detail.html', {
+        'bookings_json': bookings_json,
+    })
+
+def reset_password(request):
+    form = ResetPasswordForm()
+    if request.method == 'POST':
+        form = ResetPasswordForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            new_password = form.cleaned_data['new_password']
+            confirm_password = form.cleaned_data['confirm_password']
+            
+            user = UserBadminton.objects.filter(username=username).first()
+            if not user:
+                messages.error(request, "ไม่พบชื่อผู้ใช้.")
+                return render(request, 'court/password_reset.html', {'form': form})
+
+            if new_password != confirm_password:
+                messages.error(request, "รหัสผ่านไม่ตรงกัน.")
+                return render(request, 'court/password_reset.html', {'form': form})
+
+            user.set_password(new_password)
+            user.save()
+            messages.success(request, "รีเซ็ตรหัสผ่านเรียบร้อยแล้ว.")
+            
+            # ตรวจสอบว่า redirect ไปยังหน้า login
+            return redirect('login')
+
+    return render(request, 'court/password_reset.html', {'form': form})
